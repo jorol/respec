@@ -1,6 +1,4 @@
 // @ts-check
-import { expose } from "./expose-modules.js";
-
 /**
  * Module core/pubsubhub
  *
@@ -52,6 +50,7 @@ export function sub(topic, cb, opts = { once: false }) {
       cb(...args);
     });
   }
+
   if (subscriptions.has(topic)) {
     subscriptions.get(topic).add(cb);
   } else {
@@ -81,5 +80,3 @@ sub("error", err => {
 sub("warn", str => {
   console.warn(str);
 });
-
-expose(name, { sub });

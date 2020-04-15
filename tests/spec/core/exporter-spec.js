@@ -7,11 +7,12 @@ describe("Core - exporter", () => {
 
   async function getExportedDoc(ops) {
     const doc = await makeRSDoc(ops);
-    const dataURL = await new Promise(resolve => {
-      doc.defaultView.require(["core/exporter"], ({ rsDocToDataURL }) =>
-        resolve(rsDocToDataURL("text/html", doc))
-      );
-    });
+
+    doc.getElementById("respec-pill").click();
+    doc.getElementById("respec-button-export").click();
+    await new Promise(res => setTimeout(res, 100)); // XXX
+    const dataURL = doc.getElementById("respec-save-as-html").href;
+
     const docString = decodeURIComponent(dataURL).replace(
       "data:text/html;charset=utf-8,",
       ""

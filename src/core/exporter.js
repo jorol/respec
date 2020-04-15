@@ -7,9 +7,8 @@
  */
 
 import { removeCommentNodes, removeReSpec } from "./utils.js";
-import { expose } from "./expose-modules.js";
 import { html } from "./import-maps.js";
-import { pub } from "./pubsubhub.js";
+import { pub, subscriptions } from "./pubsubhub.js";
 
 const mimeTypes = new Map([
   ["text/html", "html"],
@@ -91,5 +90,3 @@ function cleanup(cloneDoc) {
   head.prepend(insertions);
   pub("beforesave", documentElement);
 }
-
-expose("core/exporter", { rsDocToDataURL });
