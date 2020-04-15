@@ -207,3 +207,16 @@ export function makeStandardGeoOps(config = {}, body = makeDefaultBody()) {
     config: { ...makeBasicConfig("geonovum"), ...config },
   };
 }
+
+export async function getExportedDoc(opts, src, style = "") {
+  const doc = await makeRSDoc(opts, src, style);
+
+  doc.getElementById("respec-pill").click();
+  doc.getElementById("respec-button-export").click();
+  await new Promise(res => setTimeout(res, 100)); // XXX
+  const dataURL = doc.getElementById("respec-save-as-html").href;
+
+  const decodedDataURL = decodeURIComponent(dataURL);
+  const docString = decodedDataURL.replace("data:text/html;charset=utf-8,", "");
+  return new DOMParser().parseFromString(docString, "text/html");
+}

@@ -1,24 +1,13 @@
 "use strict";
 
-import { flushIframes, makeRSDoc, makeStandardOps } from "../SpecHelper.js";
+import {
+  flushIframes,
+  getExportedDoc,
+  makeStandardOps,
+} from "../SpecHelper.js";
 
 describe("Core - exporter", () => {
   afterAll(flushIframes);
-
-  async function getExportedDoc(ops) {
-    const doc = await makeRSDoc(ops);
-
-    doc.getElementById("respec-pill").click();
-    doc.getElementById("respec-button-export").click();
-    await new Promise(res => setTimeout(res, 100)); // XXX
-    const dataURL = doc.getElementById("respec-save-as-html").href;
-
-    const docString = decodeURIComponent(dataURL).replace(
-      "data:text/html;charset=utf-8,",
-      ""
-    );
-    return new DOMParser().parseFromString(docString, "text/html");
-  }
 
   it("removes .removeOnSave elements", async () => {
     const ops = makeStandardOps();
